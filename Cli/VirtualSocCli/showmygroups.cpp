@@ -8,7 +8,7 @@ ShowMyGroups::ShowMyGroups(QWidget *parent, int _sd,User* _user) :
 {
     sd=_sd;
     user=_user;
-
+    Parent=parent;
     ui->setupUi(this);
 
     drawGroupsArea();

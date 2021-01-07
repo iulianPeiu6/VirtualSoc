@@ -403,4 +403,46 @@ QString getGroups(int userId){
         qDebug() <<getGroupsQry.lastError();
     return QString(groupsDetails);
 }
+
+QString getAllPublicUsers(){
+    QString allPublicUsers;
+    QSqlQuery getPublicUsersQry;
+    getPublicUsersQry.prepare("SELECT * from \"Users\" WHERE \"UserVisibility\"='public'");
+
+    if (getPublicUsersQry.exec()){
+        while(getPublicUsersQry.next())
+            allPublicUsers=allPublicUsers   +getPublicUsersQry.value(0).toString()+" "
+                                            +getPublicUsersQry.value(1).toString()+" "
+                                            +getPublicUsersQry.value(2).toString()+" "
+                                            +getPublicUsersQry.value(3).toString()+" "
+                                            +getPublicUsersQry.value(4).toString()+" "
+                                            +getPublicUsersQry.value(5).toString()+" "
+                                            +getPublicUsersQry.value(6).toString()+" ";
+    }
+    else{
+        qDebug() <<getPublicUsersQry.lastError();
+    }
+    return QString(allPublicUsers);
+}
+
+QString getAllPublicUserPosts(int userId){
+    QString allPublicUserPosts;
+    QSqlQuery getAllPublicUserPostsQry;
+    getAllPublicUserPostsQry.prepare("SELECT * FROM \"Posts\" WHERE \"UserId\"=:userId AND \"PostVisibility\"='public' ORDER BY \"PostId\"");
+    getAllPublicUserPostsQry.bindValue(":userId",userId);
+
+    if (getAllPublicUserPostsQry.exec()){
+        while(getAllPublicUserPostsQry.next())
+            allPublicUserPosts=allPublicUserPosts   +getAllPublicUserPostsQry.value(0).toString()+"~"
+                                                    +getAllPublicUserPostsQry.value(1).toString()+"~"
+                                                    +getAllPublicUserPostsQry.value(2).toString()+"~"
+                                                    +getAllPublicUserPostsQry.value(3).toString()+"~"
+                                                    +getAllPublicUserPostsQry.value(4).toString()+"~"
+                                                    +getAllPublicUserPostsQry.value(5).toString()+"~"
+                                                    +getAllPublicUserPostsQry.value(6).toString()+"~";
+    }
+    else
+        qDebug() <<getAllPublicUserPostsQry.lastError();
+    return QString(allPublicUserPosts);
+}
 #endif // TOOLS_H

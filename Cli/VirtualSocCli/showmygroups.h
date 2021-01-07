@@ -26,6 +26,7 @@ private:
     int sd;
     User* user;
     Group** groups;
+    QWidget* Parent;
     QVBoxLayout* verticalLayout;
 
     void drawGroupsArea();

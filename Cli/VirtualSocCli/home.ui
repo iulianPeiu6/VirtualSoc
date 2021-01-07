@@ -35,9 +35,15 @@
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QLabel" name="post_biglabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="font">
              <font>
               <family>Ubuntu</family>
@@ -83,21 +89,28 @@
          </layout>
         </item>
         <item>
-         <widget class="QScrollArea" name="posts_scrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="posts_scrollAreaWidgetContents">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>505</width>
-             <height>769</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QScrollArea" name="posts_scrollArea">
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>509</width>
+               <height>767</height>
+              </rect>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -111,6 +124,12 @@
              <layout class="QHBoxLayout" name="horizontalLayout_7">
               <item>
                <widget class="QLabel" name="current_username_info_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -127,6 +146,12 @@
               </item>
               <item>
                <widget class="QLabel" name="current_username_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Username:</string>
                 </property>
@@ -138,6 +163,12 @@
              <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
                <widget class="QLabel" name="current_registration_info_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -148,6 +179,12 @@
               </item>
               <item>
                <widget class="QLabel" name="current_registration_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Registration:</string>
                 </property>
@@ -159,6 +196,12 @@
              <layout class="QHBoxLayout" name="horizontalLayout_9">
               <item>
                <widget class="QLabel" name="current_access_info_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -169,6 +212,12 @@
               </item>
               <item>
                <widget class="QLabel" name="current_access_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Access:</string>
                 </property>
@@ -180,6 +229,12 @@
              <layout class="QHBoxLayout" name="horizontalLayout_10">
               <item>
                <widget class="QLabel" name="current_user_type_info_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -190,6 +245,12 @@
               </item>
               <item>
                <widget class="QLabel" name="current_user_type_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>User type:</string>
                 </property>
@@ -226,6 +287,12 @@
         </item>
         <item>
          <widget class="QLabel" name="label_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <family>Ubuntu</family>
@@ -273,7 +340,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="search_lineEdit"/>
+             <widget class="QLineEdit" name="search_lineEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="friends_refreshpushButton">
@@ -292,6 +366,12 @@
           </item>
           <item>
            <widget class="QScrollArea" name="friends_scrollArea">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>25</width>
@@ -309,7 +389,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>1017</width>
+               <width>1011</width>
                <height>627</height>
               </rect>
              </property>

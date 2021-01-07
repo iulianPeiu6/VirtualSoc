@@ -36,6 +36,8 @@
 #define GET_FRIEND_REQUEST 18
 #define CREATE_GROUP 19
 #define GET_USER_GROUPS 20
+#define GET_ALL_PUBLIC_USERS 21
+#define GET_ALL_PUBLIC_USER_POSTS 22
 
 extern int errno;
 
@@ -171,6 +173,18 @@ char* getResponse(char msg[MSG_LEN]){
     case GET_USER_GROUPS:
         msg=getGroups(cmd_prop[1].toInt()).toLocal8Bit().data();
         break;
+    case GET_ALL_PUBLIC_USERS:{
+        QString allPublicUsers=getAllPublicUsers().toLocal8Bit().data();
+        for (int i=0;i<allPublicUsers.length();i++)
+            msg[i]=allPublicUsers.at(i).toLatin1();
+        break;
+    }
+    case GET_ALL_PUBLIC_USER_POSTS:{
+        QString allPublicUserPosts=getAllPublicUserPosts(cmd_prop[1].toInt());
+        for (int i=0;i<allPublicUserPosts.length();i++)
+            msg[i]=allPublicUserPosts.at(i).toLatin1();
+        break;
+    }
     default:
         msg=cmd_prop[1].toLocal8Bit().data();
     }
@@ -289,8 +303,6 @@ int main(){
     int sd = setupServer();
 
     connectToDb();
-
-    deleteUser(22);
 
     handleClientsRequests(sd);
 

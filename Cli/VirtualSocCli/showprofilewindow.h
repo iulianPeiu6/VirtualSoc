@@ -36,6 +36,7 @@ private slots:
 private:
     Ui::ShowProfileWindow *ui;
     SendMessageWindow* sendMessageWindow;
+    ShowProfileWindow* showProfileWindow;
     int numOfUsers;
     User** users;
     QVBoxLayout* u_verticalLayout;

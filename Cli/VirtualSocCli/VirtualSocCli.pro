@@ -13,6 +13,7 @@ SOURCES += \
     creategroupwindow.cpp \
     createpostwindow.cpp \
     group.cpp \
+    guesthomewindow.cpp \
     home.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     creategroupwindow.h \
     createpostwindow.h \
     group.h \
+    guesthomewindow.h \
     home.h \
     mainwindow.h \
     post.h \
@@ -41,12 +43,12 @@ HEADERS += \
     showmygroups.h \
     showprofilewindow.h \
     updateuserinfo.h \
-    updateuserui.h \
     user.h
 
 FORMS += \
     creategroupwindow.ui \
     createpostwindow.ui \
+    guesthomewindow.ui \
     home.ui \
     mainwindow.ui \
     register.ui \

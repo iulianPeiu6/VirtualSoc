@@ -1,5 +1,6 @@
 #include "showprofilewindow.h"
 #include "ui_showprofilewindow.h"
+#include <QGroupBox>
 
 ShowProfileWindow::ShowProfileWindow(QWidget *parent, int _sd, User* _user, User* _profile) :
     QMainWindow(parent),
@@ -13,14 +14,15 @@ ShowProfileWindow::ShowProfileWindow(QWidget *parent, int _sd, User* _user, User
 
     ui->setupUi(this);
 
+    if (user==nullptr)
+        ui->friendship_pushButton->hide();
     ui->post_biglabel->setStyleSheet(" color: blue;");
     ui->search_pushButton->setStyleSheet("border-image:url(/home/iulian/RC_proj/VirtualSoc/images/searchIcon.png);");
     drawProfile();
     drawFriendsArea();
     p_verticalLayout=new QVBoxLayout();
     printPosts();
-    ui->posts_scrollArea->setLayout(p_verticalLayout);
-    ui->posts_scrollArea->show();
+
 
 
 }
@@ -41,9 +43,10 @@ void ShowProfileWindow::drawProfile(){
         ui->current_active_status_info_label->setText("offline");
         ui->current_active_status_info_label->setStyleSheet("color: red;");
     }
-
-    QString friendshipType=sendMsg(sd,"15 " +QString::number(user->UserId) + " " +QString::number(profile->UserId) );
-    ui->friendship_pushButton->setText(friendshipType);
+    if (user!=nullptr){
+        QString friendshipType=sendMsg(sd,"15 " +QString::number(user->UserId) + " " +QString::number(profile->UserId) );
+        ui->friendship_pushButton->setText(friendshipType);
+    }
 
 }
 
@@ -92,13 +95,17 @@ void ShowProfileWindow::drawFriendsArea(){
         u_usernameLabel[i]->setText(usersDetails[i*7+1]);
         u_horizontalLayout[i]->addWidget(u_usernameLabel[i]);
         u_horizontalLayout[i]->addWidget(u_activeLabel[i]);
-        u_horizontalLayout[i]->addWidget(u_sendMessage[i]);
+        if (user!=nullptr)
+            u_horizontalLayout[i]->addWidget(u_sendMessage[i]);
         u_horizontalLayout[i]->addWidget(u_seeProfile[i]);
         u_verticalLayout->addLayout(u_horizontalLayout[i]);
-        connect(u_sendMessage[i],&QPushButton::clicked, this, [=](){  QString groupDetails=sendMsg(sd,"10 "+QString::number(user->UserId)+" "+QString::number(users[i]->UserId));
-                                                                    Group* group=new Group(groupDetails);
-                                                                    sendMessageWindow = new SendMessageWindow(this,sd,user,group);
-                                                                    sendMessageWindow->show(); });
+        if (user!=nullptr)
+            connect(u_sendMessage[i],&QPushButton::clicked, this, [=](){    QString groupDetails=sendMsg(sd,"10 "+QString::number(user->UserId)+" "+QString::number(users[i]->UserId));
+                                                                            Group* group=new Group(groupDetails);
+                                                                            sendMessageWindow = new SendMessageWindow(this,sd,user,group);
+                                                                            sendMessageWindow->show(); });
+        connect(u_seeProfile[i],&QPushButton::clicked, this, [=](){     showProfileWindow = new ShowProfileWindow(this,sd,user,users[i]);
+                                                                        showProfileWindow->show(); });
     }
     u_verticalLayout->addStretch();
     ui->friends_scrollAreaWidgetContents->setLayout(u_verticalLayout);
@@ -108,12 +115,18 @@ void ShowProfileWindow::drawFriendsArea(){
 }
 
 void ShowProfileWindow::printPosts(){
-    QString resp=sendMsg(sd,"11 " + QString::number(profile->UserId));
+    QString resp;
+    if (user==nullptr)
+        resp=sendMsg(sd,"22 " + QString::number(profile->UserId));
+    else
+        resp=sendMsg(sd,"11 " + QString::number(profile->UserId));
 
     QStringList postsDetails = resp.split(QLatin1Char('~'));
 
     numOfPosts=postsDetails.count()/7;
     posts= new Post*[numOfPosts];
+
+    QGroupBox* p_groupBox= new QGroupBox();
 
     for (int i=0;i<numOfPosts;i++){
 
@@ -148,9 +161,10 @@ void ShowProfileWindow::printPosts(){
             p_likePushButton->setMinimumWidth(35);
             p_likePushButton->setStyleSheet("border-image:url(/home/iulian/RC_proj/VirtualSoc/images/like_icon.png);");
 
-            connect(p_likePushButton,&QPushButton::clicked, this, [=](){        QString updateLikesMsg=sendMsg(sd,"13 "+QString::number(posts[i]->PostId));
-                                                                                p_post_likesLabel->setText(QString::number(p_post_likesLabel->text().toInt()+1));
-                                                                                p_post_likesLabel->show(); });
+            if (user!=nullptr)
+                connect(p_likePushButton,&QPushButton::clicked, this, [=](){        QString updateLikesMsg=sendMsg(sd,"13 "+QString::number(posts[i]->PostId));
+                                                                                    p_post_likesLabel->setText(QString::number(p_post_likesLabel->text().toInt()+1));
+                                                                                    p_post_likesLabel->show(); });
 
             QFrame *line;
             line = new QFrame();
@@ -170,7 +184,10 @@ void ShowProfileWindow::printPosts(){
 
     }
     p_verticalLayout->addStretch();
+    p_groupBox->setLayout(p_verticalLayout);
 
+    ui->posts_scrollArea->setWidget(p_groupBox);
+    ui->posts_scrollArea->show();
 }
 
 bool ShowProfileWindow::printUser(QString s1, QString s2){
@@ -187,13 +204,15 @@ void ShowProfileWindow::search_action()
             u_usernameLabel[i]->show();
             u_activeLabel[i]->show();
             u_seeProfile[i]->show();
-            u_sendMessage[i]->show();
+            if (user!=nullptr)
+                u_sendMessage[i]->show();
         }
         else{
             u_usernameLabel[i]->hide();
             u_activeLabel[i]->hide();
             u_seeProfile[i]->hide();
-            u_sendMessage[i]->hide();
+            if (user!=nullptr)
+                u_sendMessage[i]->hide();
         }
     }
 }

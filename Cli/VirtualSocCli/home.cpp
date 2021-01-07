@@ -1,5 +1,6 @@
 #include "home.h"
 #include "ui_home.h"
+#include <QGroupBox>
 
 Home::Home(QWidget *parent,int _sd, User* _user) :
     QMainWindow(parent),
@@ -69,18 +70,19 @@ void Home::drawFriendsArea(){
         u_seeProfile[i]->setText("See profile");
         u_sendMessage[i]->setText("Send Message");
         u_usernameLabel[i]->setText(usersDetails[i*7+1]);
+        u_seeProfile[i]->setMaximumWidth(130);
+        u_sendMessage[i]->setMaximumWidth(130);
         u_horizontalLayout[i]->addWidget(u_usernameLabel[i]);
         u_horizontalLayout[i]->addWidget(u_activeLabel[i]);
         u_horizontalLayout[i]->addWidget(u_sendMessage[i]);
         u_horizontalLayout[i]->addWidget(u_seeProfile[i]);
         u_verticalLayout->addLayout(u_horizontalLayout[i]);
+
         connect(u_sendMessage[i],&QPushButton::clicked, this, [=](){  QString groupDetails=sendMsg(sd,"10 "+QString::number(user->UserId)+" "+QString::number(users[i]->UserId));
                                                                     Group* group=new Group(groupDetails);
                                                                     sendMessageWindow = new SendMessageWindow(this,sd,user,group);
                                                                     sendMessageWindow->show(); });
-        connect(u_seeProfile[i],&QPushButton::clicked, this, [=](){
-
-                                                                        showProfileWindow = new ShowProfileWindow(this,sd,user,users[i]);
+        connect(u_seeProfile[i],&QPushButton::clicked, this, [=](){     showProfileWindow = new ShowProfileWindow(this,sd,user,users[i]);
                                                                         showProfileWindow->show(); });
     }
     u_verticalLayout->addStretch();
@@ -143,6 +145,7 @@ void Home::printPosts(){
     p_post_likesLabel=new QLabel*[numOfPosts];
     p_line=new QFrame*[numOfPosts];
 
+    QGroupBox* p_groupBox= new QGroupBox();
     for (int i=0;i<numOfPosts;i++){
 
         posts[i]=new Post(  postsDetails[i*7]+"~"
@@ -181,10 +184,6 @@ void Home::printPosts(){
             p_likePushButton[i]->setMinimumWidth(35);
             p_likePushButton[i]->setStyleSheet("border-image:url(/home/iulian/RC_proj/VirtualSoc/images/like_icon.png);");
 
-            connect(p_likePushButton[i],&QPushButton::clicked, this, [=](){     QString updateLikesMsg=sendMsg(sd,"13 "+QString::number(posts[i]->PostId));
-                p_post_likesLabel[i]->setText(QString::number(p_post_likesLabel[i]->text().toInt()+1));
-                p_post_likesLabel[i]->show(); });
-
             connect(p_delete_postPushButton[i],&QPushButton::clicked, this, [=](){      QString deletePostMsg=sendMsg(sd,"12 "+QString::number(posts[i]->PostId));
                 p_post_titleLabel[i]->hide();
                 p_post_textLabel[i]->hide();
@@ -192,15 +191,20 @@ void Home::printPosts(){
                 p_delete_postPushButton[i]->hide();
                 p_post_likesLabel[i]->hide();
                 p_likePushButton[i]->hide();
-                p_post_likesLabel[i]->hide(); });
+                p_post_likesLabel[i]->hide();
+                if (i!=0)
+                    p_line[i-1]->hide();});
             p_line[i]->setFrameShape(QFrame::HLine);
             p_line[i]->setFrameShadow(QFrame::Sunken);
 
-            p_horizontalLayout[i]->addWidget(p_delete_postPushButton[i]);
-            p_horizontalLayout[i]->addWidget(p_post_likesLabel[i]);
+
             p_horizontalLayout[i]->addWidget(p_likePushButton[i]);
+            p_horizontalLayout[i]->addWidget(p_post_likesLabel[i]);
+            p_horizontalLayout[i]->addWidget(p_delete_postPushButton[i]);
+
 
             p_verticalLayout->addWidget(p_post_titleLabel[i]);
+
             p_verticalLayout->addWidget(p_post_textLabel[i]);
 
             p_verticalLayout->addLayout(p_horizontalLayout[i]);
@@ -209,7 +213,9 @@ void Home::printPosts(){
 
     }
     p_verticalLayout->addStretch();
-    ui->posts_scrollArea->setLayout(p_verticalLayout);
+    p_groupBox->setLayout(p_verticalLayout);
+
+    ui->posts_scrollArea->setWidget(p_groupBox);
     ui->posts_scrollArea->show();
 
 }

@@ -20,7 +20,12 @@ searchWindow::searchWindow(QWidget *parent, int _sd, User* _user) :
     ui->setupUi(this);
 
     ui->search_pushButton->setStyleSheet("border-image:url(/home/iulian/RC_proj/VirtualSoc/images/searchIcon.png);");
-    QString resp=sendMsg(sd,"6 " + QString::number(user->UserId));
+
+    QString resp;
+    if (user==nullptr)
+        resp=sendMsg(sd,"21 ");
+    else
+        resp=sendMsg(sd,"6 " + QString::number(user->UserId));
 
     QStringList usersDetails = resp.split(QLatin1Char(' '));
 
@@ -49,6 +54,7 @@ searchWindow::searchWindow(QWidget *parent, int _sd, User* _user) :
 
         SeeProfile[i] = new QPushButton();
         SeeProfile[i]->setText("See profile");
+
         connect(SeeProfile[i],&QPushButton::clicked, this, [=](){   showProfileWindow = new ShowProfileWindow(this,sd,user,new User(usersDetails[i*7]+" "+
                                                                                                                                     usersDetails[i*7+1]+" "+
                                                                                                                                     usersDetails[i*7+2]+" "+

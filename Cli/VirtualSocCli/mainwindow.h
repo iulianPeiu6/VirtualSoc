@@ -5,6 +5,7 @@
 #include "home.h"
 #include "register.h"
 #include "user.h"
+#include "guesthomewindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,11 +25,14 @@ private slots:
 
     void on_create_accButton_clicked();
 
+    void on_guestButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     int sd;
     User* user;
     Home* home;
     Register* _register;
+    GuestHomeWindow* guestHomeWindow;
 };
 #endif // MAINWINDOW_H

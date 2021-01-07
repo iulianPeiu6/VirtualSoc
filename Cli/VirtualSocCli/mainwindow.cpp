@@ -73,3 +73,10 @@ void MainWindow::on_create_accButton_clicked()
     _register=new Register(this,sd);
     _register->show();
 }
+
+void MainWindow::on_guestButton_clicked(){
+
+    this->hide();
+    guestHomeWindow=new GuestHomeWindow(this,sd);
+    guestHomeWindow->show();
+}

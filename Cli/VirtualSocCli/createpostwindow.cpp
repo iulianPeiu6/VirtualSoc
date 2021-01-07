@@ -30,8 +30,8 @@ QString CreatePostWindow::validate(QString post_title,QString post_text){
     if (post_title.length()>32)
         return "The title has maximum 32 characters!";
 
-    if (post_text.length()>1024)
-        return "The text has maximum 1024 characters!";
+    if (post_text.length()>4096)
+        return "The text has maximum 4096 characters!";
 
     return "";
 
